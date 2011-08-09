@@ -1,0 +1,302 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2735E82713EEC0790032B259 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2735E82613EEC0790032B259 /* Cocoa.framework */; };
+		2735E83113EEC0790032B259 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2735E82F13EEC0790032B259 /* InfoPlist.strings */; };
+		2735E83413EEC0790032B259 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2735E83313EEC0790032B259 /* main.m */; };
+		2735E83713EEC0790032B259 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2735E83513EEC0790032B259 /* Credits.rtf */; };
+		2735E83A13EEC0790032B259 /* Special_Key_HandlerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2735E83913EEC0790032B259 /* Special_Key_HandlerAppDelegate.m */; };
+		2735E83D13EEC0790032B259 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2735E83B13EEC0790032B259 /* MainMenu.xib */; };
+		27C79A9C13EF2529003878D3 /* special_keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27C79A9B13EF2529003878D3 /* special_keys.plist */; };
+		27DEE32F13EEC23C0001A3F4 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DEE32E13EEC23C0001A3F4 /* IOKit.framework */; };
+		27DEE33613EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DEE33513EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2735E82213EEC0790032B259 /* Special Key Handler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Special Key Handler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2735E82613EEC0790032B259 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		2735E82913EEC0790032B259 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		2735E82A13EEC0790032B259 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		2735E82B13EEC0790032B259 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2735E82E13EEC0790032B259 /* Special Key Handler-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Special Key Handler-Info.plist"; sourceTree = "<group>"; };
+		2735E83013EEC0790032B259 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2735E83213EEC0790032B259 /* Special Key Handler-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Special Key Handler-Prefix.pch"; sourceTree = "<group>"; };
+		2735E83313EEC0790032B259 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2735E83613EEC0790032B259 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2735E83813EEC0790032B259 /* Special_Key_HandlerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Special_Key_HandlerAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2735E83913EEC0790032B259 /* Special_Key_HandlerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Special_Key_HandlerAppDelegate.m; path = "Special Key Handler/Special_Key_HandlerAppDelegate.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2735E83C13EEC0790032B259 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		27C79A9B13EF2529003878D3 /* special_keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = special_keys.plist; sourceTree = "<group>"; };
+		27DEE32E13EEC23C0001A3F4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		27DEE33413EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSNaturalKeyboardHIDDriver.h; path = ../MSNaturalKeyboardHIDDriver.h; sourceTree = "<group>"; };
+		27DEE33513EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSNaturalKeyboardHIDDriver.m; path = ../MSNaturalKeyboardHIDDriver.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2735E81F13EEC0790032B259 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27DEE32F13EEC23C0001A3F4 /* IOKit.framework in Frameworks */,
+				2735E82713EEC0790032B259 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2735E81713EEC0780032B259 = {
+			isa = PBXGroup;
+			children = (
+				2735E83913EEC0790032B259 /* Special_Key_HandlerAppDelegate.m */,
+				2735E82C13EEC0790032B259 /* Special Key Handler */,
+				2735E82513EEC0790032B259 /* Frameworks */,
+				2735E82313EEC0790032B259 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2735E82313EEC0790032B259 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2735E82213EEC0790032B259 /* Special Key Handler.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2735E82513EEC0790032B259 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2735E82613EEC0790032B259 /* Cocoa.framework */,
+				2735E82813EEC0790032B259 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2735E82813EEC0790032B259 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				27DEE32E13EEC23C0001A3F4 /* IOKit.framework */,
+				2735E82913EEC0790032B259 /* AppKit.framework */,
+				2735E82A13EEC0790032B259 /* CoreData.framework */,
+				2735E82B13EEC0790032B259 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		2735E82C13EEC0790032B259 /* Special Key Handler */ = {
+			isa = PBXGroup;
+			children = (
+				2735E83813EEC0790032B259 /* Special_Key_HandlerAppDelegate.h */,
+				27DEE33413EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.h */,
+				27DEE33513EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.m */,
+				2735E83B13EEC0790032B259 /* MainMenu.xib */,
+				2735E82D13EEC0790032B259 /* Supporting Files */,
+			);
+			path = "Special Key Handler";
+			sourceTree = "<group>";
+		};
+		2735E82D13EEC0790032B259 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2735E82E13EEC0790032B259 /* Special Key Handler-Info.plist */,
+				2735E82F13EEC0790032B259 /* InfoPlist.strings */,
+				2735E83213EEC0790032B259 /* Special Key Handler-Prefix.pch */,
+				2735E83313EEC0790032B259 /* main.m */,
+				2735E83513EEC0790032B259 /* Credits.rtf */,
+				27C79A9B13EF2529003878D3 /* special_keys.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2735E82113EEC0790032B259 /* Special Key Handler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2735E84013EEC0790032B259 /* Build configuration list for PBXNativeTarget "Special Key Handler" */;
+			buildPhases = (
+				2735E81E13EEC0790032B259 /* Sources */,
+				2735E81F13EEC0790032B259 /* Frameworks */,
+				2735E82013EEC0790032B259 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Special Key Handler";
+			productName = "Special Key Handler";
+			productReference = 2735E82213EEC0790032B259 /* Special Key Handler.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2735E81913EEC0780032B259 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 2735E81C13EEC0780032B259 /* Build configuration list for PBXProject "Special Key Handler" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2735E81713EEC0780032B259;
+			productRefGroup = 2735E82313EEC0790032B259 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2735E82113EEC0790032B259 /* Special Key Handler */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2735E82013EEC0790032B259 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2735E83113EEC0790032B259 /* InfoPlist.strings in Resources */,
+				2735E83713EEC0790032B259 /* Credits.rtf in Resources */,
+				2735E83D13EEC0790032B259 /* MainMenu.xib in Resources */,
+				27C79A9C13EF2529003878D3 /* special_keys.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2735E81E13EEC0790032B259 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2735E83413EEC0790032B259 /* main.m in Sources */,
+				2735E83A13EEC0790032B259 /* Special_Key_HandlerAppDelegate.m in Sources */,
+				27DEE33613EEC2A40001A3F4 /* MSNaturalKeyboardHIDDriver.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2735E82F13EEC0790032B259 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2735E83013EEC0790032B259 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2735E83513EEC0790032B259 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2735E83613EEC0790032B259 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		2735E83B13EEC0790032B259 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2735E83C13EEC0790032B259 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2735E83E13EEC0790032B259 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2735E83F13EEC0790032B259 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2735E84113EEC0790032B259 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Special Key Handler/Special Key Handler-Prefix.pch";
+				INFOPLIST_FILE = "Special Key Handler/Special Key Handler-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2735E84213EEC0790032B259 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Special Key Handler/Special Key Handler-Prefix.pch";
+				INFOPLIST_FILE = "Special Key Handler/Special Key Handler-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2735E81C13EEC0780032B259 /* Build configuration list for PBXProject "Special Key Handler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2735E83E13EEC0790032B259 /* Debug */,
+				2735E83F13EEC0790032B259 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2735E84013EEC0790032B259 /* Build configuration list for PBXNativeTarget "Special Key Handler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2735E84113EEC0790032B259 /* Debug */,
+				2735E84213EEC0790032B259 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2735E81913EEC0780032B259 /* Project object */;
+}

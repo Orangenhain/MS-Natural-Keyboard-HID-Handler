@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Input Event Dumper.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Special Key Handler.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MSNaturalKeyboardHIDDriver.h">
+   </FileRef>
+   <FileRef
+      location = "group:MSNaturalKeyboardHIDDriver.m">
+   </FileRef>
+</Workspace>

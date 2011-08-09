@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Input Event Dumper' target in the 'Input Event Dumper' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
