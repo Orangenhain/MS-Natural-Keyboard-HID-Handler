@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23C1AF4F159E2AC200C3FEB3 /* stethoscope.icns in Resources */ = {isa = PBXBuildFile; fileRef = 23C1AF4E159E2AC200C3FEB3 /* stethoscope.icns */; };
 		2735E82713EEC0790032B259 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2735E82613EEC0790032B259 /* Cocoa.framework */; };
 		2735E83113EEC0790032B259 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2735E82F13EEC0790032B259 /* InfoPlist.strings */; };
 		2735E83413EEC0790032B259 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2735E83313EEC0790032B259 /* main.m */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23C1AF4E159E2AC200C3FEB3 /* stethoscope.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = stethoscope.icns; sourceTree = "<group>"; };
 		2735E82213EEC0790032B259 /* Special Key Handler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Special Key Handler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2735E82613EEC0790032B259 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2735E82913EEC0790032B259 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -104,6 +106,7 @@
 		2735E82D13EEC0790032B259 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				23C1AF4E159E2AC200C3FEB3 /* stethoscope.icns */,
 				2735E82E13EEC0790032B259 /* Special Key Handler-Info.plist */,
 				2735E82F13EEC0790032B259 /* InfoPlist.strings */,
 				2735E83213EEC0790032B259 /* Special Key Handler-Prefix.pch */,
@@ -165,6 +168,7 @@
 				2735E83713EEC0790032B259 /* Credits.rtf in Resources */,
 				2735E83D13EEC0790032B259 /* MainMenu.xib in Resources */,
 				27C79A9C13EF2529003878D3 /* special_keys.plist in Resources */,
+				23C1AF4F159E2AC200C3FEB3 /* stethoscope.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

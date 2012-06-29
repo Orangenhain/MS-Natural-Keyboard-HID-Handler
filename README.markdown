@@ -47,3 +47,4 @@ Don't forget the special keys in the second row. The ones on F1-F12.
 
 * Thane Norton -- for his part in the WWDC talk on User-Level Device Access
 * Giles C Williams, Alex Smith and Jens Ayton -- for their work on OOLeopardJoystickManager
+* DaPino -- for the stethoscope icon, http://www.dapino-colada.nl/medical-vista-icons
