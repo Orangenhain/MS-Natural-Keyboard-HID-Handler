@@ -14,6 +14,7 @@ NSString * const kInputEventUsageKey = @"usage";
 NSString * const kInputEventValueKey = @"intValue";
 NSString * const kInputEventMinKey = @"min";
 NSString * const kInputEventMaxKey = @"max";
+NSString * const kInputEventDevice = @"device";
 
 
 @interface MSNaturalKeyboardHIDDriver ()
@@ -22,32 +23,16 @@ NSString * const kInputEventMaxKey = @"max";
 - (void) deviceDidRemove:(IOHIDDeviceRef)inDevice;
 - (void) deviceDidRecieveInput:(IOHIDValueRef)inValue;
 
-- (CFDictionaryRef) MSNaturalKeyboardMatchingDictionary;
-- (BOOL) deviceIsMSNaturalKeyboard:(IOHIDDeviceRef)inDevice;
-- (void) foundMSNaturalKeyboard:(IOHIDDeviceRef)inDevice;
-
-- (NSDictionary *) eventDictionaryFromInputValue:(IOHIDValueRef)inValue;
-
 @property (assign) IOHIDManagerRef hidManager;
 
 @end
 
-@interface MSNaturalKeyboardHIDDriver (Delegate)
-
-- (void) keyboardDriverDidRecieveInputEvent:(NSDictionary *) inputEvent;
-- (void) keyboardDriverWantsToBeNoticed:(NSString *)aNotice;
-
-@end
-
 static void DeviceMatchingCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef  inIOHIDDeviceRef);
-static void InputValueCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDValueRef  inIOHIDValueRef);
-static void DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef  inIOHIDDeviceRef);
+static void     InputValueCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDValueRef    inIOHIDValueRef);
+static void  DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef  inIOHIDDeviceRef);
 
 
 @implementation MSNaturalKeyboardHIDDriver
-
-@synthesize delegate;
-@synthesize hidManager;
 
 - (MSNaturalKeyboardHIDDriver *) initWithDelegate:(id)aDelegate
 {
@@ -57,18 +42,18 @@ static void DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inS
         return nil;
     
     self.delegate = aDelegate;
-    hidManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone );
-    IOHIDManagerSetDeviceMatching( hidManager, [self MSNaturalKeyboardMatchingDictionary] );
+    self.hidManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone );
+    IOHIDManagerSetDeviceMatching( _hidManager, [self MSNaturalKeyboardMatchingDictionary] );
     
-    IOHIDManagerRegisterDeviceMatchingCallback( hidManager, DeviceMatchingCallback, self);
-    IOHIDManagerRegisterDeviceRemovalCallback( hidManager, DeviceRemovalCallback, self );
+    IOHIDManagerRegisterDeviceMatchingCallback( _hidManager, DeviceMatchingCallback, (__bridge void *)(self) );
+    IOHIDManagerRegisterDeviceRemovalCallback(  _hidManager, DeviceRemovalCallback,  (__bridge void *)(self) );
     
-    IOHIDManagerScheduleWithRunLoop( hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
-    IOReturn iores = IOHIDManagerOpen( hidManager, kIOHIDOptionsTypeNone );
+    IOHIDManagerScheduleWithRunLoop( _hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode );
+
+    IOReturn iores = IOHIDManagerOpen( _hidManager, kIOHIDOptionsTypeNone );
     if ( iores != kIOReturnSuccess )
     {
         [self keyboardDriverWantsToBeNoticed:@"Cannot open HID manager."];
-        [self release];
         return nil;
     }
     
@@ -78,16 +63,23 @@ static void DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inS
 
 - (BOOL) deviceIsMSNaturalKeyboard:(IOHIDDeviceRef)inDevice
 {
-    NSString *product = (NSString *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDProductKey) );
+//    return YES;
+    NSString *product = (__bridge NSString *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDProductKey) );
+    
     return [product hasPrefix:@"Natural"];
 }
 
 - (void) foundMSNaturalKeyboard:(IOHIDDeviceRef)inDevice;
 {
-    NSString *msg = [NSString stringWithFormat:@"connected: %@", IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDProductKey ))];
+    NSString *product   =  (__bridge NSString *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDProductKey) );
+    unsigned  usagePage = [(__bridge NSNumber *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDPrimaryUsagePageKey) ) unsignedIntValue];
+    unsigned  usage     = [(__bridge NSNumber *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDPrimaryUsageKey) ) unsignedIntValue];
+    
+    NSString *msg       = [NSString stringWithFormat:@"connected HID device %p: %@ (primary usage %u:%u)", inDevice, product, usagePage, usage];
+
     [self keyboardDriverWantsToBeNoticed:msg];
 	
-	IOHIDDeviceRegisterInputValueCallback( inDevice, InputValueCallback, self );
+	IOHIDDeviceRegisterInputValueCallback( inDevice, InputValueCallback, (__bridge void *)(self) );
 }
 
 - (CFDictionaryRef) MSNaturalKeyboardMatchingDictionary;
@@ -99,48 +91,47 @@ static void DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inS
 //                [NSNumber numberWithInt:0xdb],  CFSTR(kIOHIDProductIDKey),
 //                nil];
 
-    return (CFDictionaryRef)matching;
+    return (__bridge CFDictionaryRef)matching;
 }
 
 - (NSDictionary *) eventDictionaryFromInputValue:(IOHIDValueRef)inValue;
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *eventDict = [NSMutableDictionary dictionary];
 
     IOHIDElementRef	element = IOHIDValueGetElement(inValue);
-    [dict setObject:[NSNumber numberWithUnsignedInt:IOHIDElementGetUsagePage(element)] forKey:kInputEventUsagePageKey];
-    [dict setObject:[NSNumber numberWithUnsignedInt:IOHIDElementGetUsage(element)] forKey:kInputEventUsageKey];
+    eventDict[kInputEventUsagePageKey] = @(IOHIDElementGetUsagePage(element));
+    eventDict[kInputEventUsageKey]     = @(IOHIDElementGetUsage(element));
+    eventDict[kInputEventValueKey]     = @(IOHIDValueGetIntegerValue(inValue));
+    eventDict[kInputEventMinKey]       = @(IOHIDElementGetLogicalMin(element));
+    eventDict[kInputEventMaxKey]       = @(IOHIDElementGetLogicalMax(element));
+    eventDict[kInputEventDevice]       = [NSString stringWithFormat:@"%p", IOHIDElementGetDevice(element)];
     
-    [dict setObject:[NSNumber numberWithLong:IOHIDValueGetIntegerValue(inValue)] forKey:kInputEventValueKey];
-    [dict setObject:[NSNumber numberWithLong:IOHIDElementGetLogicalMin(element)] forKey:kInputEventMinKey];
-    [dict setObject:[NSNumber numberWithLong:IOHIDElementGetLogicalMax(element)] forKey:kInputEventMaxKey];
-    
-    return dict;
+    return eventDict;
 }
 
 - (void) dealloc
 {
-    if (hidManager != NULL)
-        CFRelease(hidManager);
+    if (_hidManager != NULL)
+        CFRelease(_hidManager);
     
-    [super dealloc];
 }
 
 #pragma mark -
 #pragma mark callback handler
 - (void) deviceDidMatch:(IOHIDDeviceRef)inDevice;
 {
-    if ( ! [self deviceIsMSNaturalKeyboard:inDevice] ) {
-        NSString *product = (NSString *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDProductKey) );
-        unsigned usagePage = [(NSNumber *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDPrimaryUsagePageKey) ) unsignedIntValue];
-        unsigned usage = [(NSNumber *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDPrimaryUsageKey) ) unsignedIntValue];
+    if ( [self deviceIsMSNaturalKeyboard:inDevice] ) {
+        [self foundMSNaturalKeyboard:inDevice];
+    } else {
+        NSString *product   =  (__bridge NSString *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDProductKey) );
+        unsigned  usagePage = [(__bridge NSNumber *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDPrimaryUsagePageKey) ) unsignedIntValue];
+        unsigned  usage     = [(__bridge NSNumber *)IOHIDDeviceGetProperty( inDevice, CFSTR(kIOHIDPrimaryUsageKey) ) unsignedIntValue];
 
-        NSString *msg = [NSString stringWithFormat:@"Ignoring HID device: %@ (primary usage %u:%u)", product, usagePage, usage];
-        [self keyboardDriverWantsToBeNoticed:msg];
+        NSString *msg       = [NSString stringWithFormat:@"Ignoring HID device %p: %@ (primary usage %u:%u)", inDevice, product, usagePage, usage];
         
-        return;
+        [self keyboardDriverWantsToBeNoticed:msg];
     }
     
-    [self foundMSNaturalKeyboard:inDevice];
 }
 
 - (void) deviceDidRemove:(IOHIDDeviceRef)inDevice;
@@ -182,13 +173,13 @@ static void DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inS
 
 static void DeviceMatchingCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef  inIOHIDDeviceRef)
 {
-	[(MSNaturalKeyboardHIDDriver *)inContext deviceDidMatch:inIOHIDDeviceRef];
+	[(__bridge MSNaturalKeyboardHIDDriver *)inContext deviceDidMatch:inIOHIDDeviceRef];
 }
 static void DeviceRemovalCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef  inIOHIDDeviceRef)
 {
-	[(MSNaturalKeyboardHIDDriver *)inContext deviceDidRemove:inIOHIDDeviceRef];
+	[(__bridge MSNaturalKeyboardHIDDriver *)inContext deviceDidRemove:inIOHIDDeviceRef];
 }
 static void InputValueCallback(void * inContext, IOReturn inResult, void* inSender, IOHIDValueRef  inIOHIDValueRef)
 {
-	[(MSNaturalKeyboardHIDDriver *)inContext deviceDidRecieveInput:inIOHIDValueRef];
+	[(__bridge MSNaturalKeyboardHIDDriver *)inContext deviceDidRecieveInput:inIOHIDValueRef];
 }

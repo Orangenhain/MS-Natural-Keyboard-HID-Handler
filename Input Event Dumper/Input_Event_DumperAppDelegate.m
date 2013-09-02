@@ -15,18 +15,12 @@
 - (void) logString:(NSString *) inMessage;
 - (NSString*) logEntryFromInputEvent:(NSDictionary *) inputEvent;
 
-@property (retain) MSNaturalKeyboardHIDDriver *kbdDriver;
-@property (retain) NSDictionary *usageStrings;
+@property (strong) MSNaturalKeyboardHIDDriver *kbdDriver;
+@property (strong) NSDictionary *usageStrings;
 
 @end
 
 @implementation Input_Event_DumperAppDelegate
-
-@synthesize window;
-@synthesize textView;
-@synthesize shouldShowErrorRollOver, shouldShowFFFF, shouldShowUndefinedUsage;
-@synthesize kbdDriver;
-@synthesize usageStrings;
 
 - (void) applicationDidFinishLaunching:(NSNotification *) aNotification
 {
@@ -41,8 +35,9 @@
 
 - (void) keyboardDriverDidRecieveInputEvent:(NSDictionary *) inputEvent
 {
-    int usagePage = [(NSNumber *)[inputEvent objectForKey:kInputEventUsagePageKey] intValue];
-    int usage = [(NSNumber *)[inputEvent objectForKey:kInputEventUsageKey] intValue];
+    int usagePage = [(NSNumber *)inputEvent[kInputEventUsagePageKey] intValue];
+    int usage     = [(NSNumber *)inputEvent[kInputEventUsageKey] intValue];
+    
     if ( ! self.shouldShowErrorRollOver ) {
         if ( usagePage == kHIDPage_KeyboardOrKeypad && usage == kHIDUsage_KeyboardErrorRollOver)
             return;
@@ -80,27 +75,22 @@
 - (NSString *) logEntryFromInputEvent:(NSDictionary *) inputEvent
 {
     NSString *format = @"0x%4.4lX";
-    NSString *pageString = [NSString stringWithFormat:format, [(NSNumber *)[inputEvent objectForKey:kInputEventUsagePageKey] longValue]];
-    NSString *usageString = [NSString stringWithFormat:format, [(NSNumber *)[inputEvent objectForKey:kInputEventUsageKey] longValue]];
+    NSString *pageString  = [NSString stringWithFormat:format, [(NSNumber *)inputEvent[kInputEventUsagePageKey] longValue]];
+    NSString *usageString = [NSString stringWithFormat:format, [(NSNumber *)inputEvent[kInputEventUsageKey] longValue]];
     NSString *path = [NSString stringWithFormat:@"%@.%@", pageString, usageString];
-    NSString *keyName = [usageStrings valueForKeyPath:path] ?: @"Unknown Key";
+    NSString *keyName = [self.usageStrings valueForKeyPath:path] ?: @"Unknown Key";
     
-    format = @"page: %5@, usage: %5@ -- value: %5ld (%4ld to %4ld) -- %@";
+    format = @"device: %@, page: %5@, usage: %5@ -- value: %5ld (%4ld to %4ld) -- %@";
     NSString *msg = [NSString stringWithFormat:format,
+                     inputEvent[kInputEventDevice],
                      pageString,
                      usageString,
-                     [(NSNumber *)[inputEvent objectForKey:kInputEventValueKey] longValue],
-                     [(NSNumber *)[inputEvent objectForKey:kInputEventMinKey] longValue],
-                     [(NSNumber *)[inputEvent objectForKey:kInputEventMaxKey] longValue],
+                     [(NSNumber *)inputEvent[kInputEventValueKey] longValue],
+                     [(NSNumber *)inputEvent[kInputEventMinKey] longValue],
+                     [(NSNumber *)inputEvent[kInputEventMaxKey] longValue],
                      keyName];
 
     return msg;
 }
 
-- (void)dealloc {
-    self.kbdDriver = nil;
-    self.usageStrings = nil;
-    
-    [super dealloc];
-}
 @end

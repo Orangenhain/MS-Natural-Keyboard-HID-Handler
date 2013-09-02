@@ -14,17 +14,12 @@
 
 - (NSString *) specialKeyNameForInputEvent:(NSDictionary *)inputEvent;
 
-@property (retain) MSNaturalKeyboardHIDDriver *kbdDriver;
-@property (retain) NSArray *specialKeys;
+@property (strong) MSNaturalKeyboardHIDDriver *kbdDriver;
+@property (strong) NSArray *specialKeys;
 
 @end
 
 @implementation Special_Key_HandlerAppDelegate
-
-@synthesize window;
-@synthesize currentKeyName, currentFilePath;
-@synthesize kbdDriver;
-@synthesize specialKeys;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -32,13 +27,13 @@
         [self.window makeKeyAndOrderFront:self];
     }
     
-    NSDictionary *defaults = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
-                                                         forKey:@"showWindowForUnsetKeys"];
+    NSDictionary *defaults = @{@"showWindowForUnsetKeys": @YES};
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
     [self.window setLevel:NSFloatingWindowLevel];
     self.specialKeys = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"special_keys" ofType:@"plist"]];
     
-    [self addObserver:self forKeyPath:@"currentKeyName" options:0 context:NULL];
+    [self addObserver:self forKeyPath:@"currentKeyName"  options:0 context:NULL];
     [self addObserver:self forKeyPath:@"currentFilePath" options:0 context:NULL];
     
     self.kbdDriver = [[MSNaturalKeyboardHIDDriver alloc] initWithDelegate:self];
@@ -61,15 +56,17 @@
 
 - (void) keyboardDriverDidRecieveInputEvent:(NSDictionary *) inputEvent;
 {
-    int usagePage = [(NSNumber *)[inputEvent objectForKey:kInputEventUsagePageKey] intValue];
+    int  usagePage  = [(NSNumber *)inputEvent[kInputEventUsagePageKey] intValue];
+    int  usage      = [(NSNumber *)inputEvent[kInputEventUsageKey] intValue];
+    long eventValue = [(NSNumber *)inputEvent[kInputEventValueKey] longValue];
+    
     if ( ( usagePage != kHIDPage_Consumer ) && ( usagePage != kHIDPage_VendorDefinedStart ) )
         return;
-    int usage = [(NSNumber *)[inputEvent objectForKey:kInputEventUsageKey] intValue];
-    if ( ( usage == -1 ) || ( usagePage == kHIDPage_Consumer && usage == 0x00 )
-        ) {
+    
+    if ( ( usage == -1 ) || ( usagePage == kHIDPage_Consumer && usage == 0x00 ) )
         return;
-    }
-    if ([(NSNumber *)[inputEvent objectForKey:kInputEventValueKey] longValue] == 0)
+    
+    if (eventValue == 0)
         return;  // not interested in KeyUp events
 
     self.currentKeyName = [self specialKeyNameForInputEvent:inputEvent];
@@ -78,15 +75,16 @@
 - (NSString *) specialKeyNameForInputEvent:(NSDictionary *)inputEvent
 {
     NSPredicate *keyFilter = [NSPredicate predicateWithFormat:@"SELF.usagePage == %i AND SELF.usage == %i AND SELF.value == %ld",
-                              [(NSNumber *)[inputEvent objectForKey:kInputEventUsagePageKey] intValue],
-                              [(NSNumber *)[inputEvent objectForKey:kInputEventUsageKey] intValue],
-                              [(NSNumber *)[inputEvent objectForKey:kInputEventValueKey] longValue]];
+                              [(NSNumber *)inputEvent[kInputEventUsagePageKey] intValue],
+                              [(NSNumber *)inputEvent[kInputEventUsageKey] intValue],
+                              [(NSNumber *)inputEvent[kInputEventValueKey] longValue]];
     
     NSArray *keyCandidates = [self.specialKeys filteredArrayUsingPredicate:keyFilter];
+
     if ([keyCandidates count] != 1)
         return nil;
     
-    return [(NSDictionary *)[keyCandidates lastObject] objectForKey:@"name"];
+    return ((NSDictionary *)[keyCandidates lastObject])[@"name"];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath
@@ -95,9 +93,11 @@
                         context:(void *)context
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
     if ([keyPath isEqualToString:@"currentKeyName"]) {
         if (self.currentKeyName) {
             self.currentFilePath = [defaults stringForKey:self.currentKeyName];
+            
             if (self.currentFilePath) {
                 if ( ! [self.window isVisible] ) {
                     [[NSWorkspace sharedWorkspace] openFile:[self.currentFilePath stringByStandardizingPath]];
@@ -113,6 +113,7 @@
     } else if ([keyPath isEqualToString:@"currentFilePath"]) {
         if (!self.currentKeyName)
             return;
+        
         [defaults setObject:self.currentFilePath forKey:self.currentKeyName];
         [defaults synchronize];
     }

@@ -11,13 +11,21 @@ extern NSString * const kInputEventUsageKey;
 extern NSString * const kInputEventValueKey;
 extern NSString * const kInputEventMinKey;
 extern NSString * const kInputEventMaxKey;
+extern NSString * const kInputEventDevice;
 
-@interface MSNaturalKeyboardHIDDriver : NSObject {
-@private
-}
+@interface MSNaturalKeyboardHIDDriver : NSObject
 
-@property (assign) id delegate;
+@property (weak) id delegate;
 
 - (MSNaturalKeyboardHIDDriver *) initWithDelegate:(id)aDelegate;
+
+@end
+
+
+@protocol MSNaturalKeyboardHIDDriverDelegate <NSObject>
+
+@optional
+- (void) keyboardDriverDidRecieveInputEvent:(NSDictionary *) inputEvent;
+- (void) keyboardDriverWantsToBeNoticed:(NSString *)aNotice;
 
 @end

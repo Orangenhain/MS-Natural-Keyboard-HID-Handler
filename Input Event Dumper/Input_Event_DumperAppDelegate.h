@@ -8,12 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface Input_Event_DumperAppDelegate : NSObject <NSApplicationDelegate> {
-@private
-}
+@interface Input_Event_DumperAppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet NSTextView *textView;
+@property (unsafe_unretained) IBOutlet NSWindow *window;
+@property (unsafe_unretained) IBOutlet NSTextView *textView;
+
 @property (assign) BOOL shouldShowFFFF;
 @property (assign) BOOL shouldShowErrorRollOver;
 @property (assign) BOOL shouldShowUndefinedUsage;
